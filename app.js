@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const catalogRouter = require('./routes/catalog');
+const helpers = require('./views/helpers/helpers');
 const { MongoClient } = require('mongodb');
 const _handlebars = require('handlebars');
 const exphbs = require('express-handlebars');
@@ -36,14 +37,7 @@ const hbs = exphbs.create({
 	defaultLayout: 'defaultLayout.hbs',
 	partialsDir: path.join(__dirname, 'views/partials'),
 	handlebars: allowInsecurePrototypeAccess(_handlebars),
-	helpers: {
-		if_eq: function (a, b, options) {
-			return a === b ? options.fn(this) : options.inverse(this);
-		},
-		if_not_eq: function (a, b, options) {
-			return a === b ? options.inverse(this) : options.fn(this);
-		},
-	},
+	helpers: helpers,
 });
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');

@@ -1,6 +1,7 @@
 const Genre = require('../models/genre');
 const async = require('async');
 const Book = require('../models/book');
+const { body, validationResult } = require('express-validator');
 
 // Display list of all Genre.
 exports.genre_list = function (req, res, next) {
@@ -47,31 +48,68 @@ exports.genre_detail = function (req, res, next) {
 };
 
 // Display Genre create form on GET.
-exports.genre_create_get = function (req, res) {
-	res.send('NOT IMPLEMENTED: Genre create GET');
+exports.genre_create_get = function (req, res, next) {
+	res.render('genre_form', { title: 'Create Genre' });
 };
 
 // Handle Genre create on POST.
-exports.genre_create_post = function (req, res) {
-	res.send('NOT IMPLEMENTED: Genre create POST');
-};
+exports.genre_create_post = [
+	// validate/sanitize name field
+	body('name', 'Genre name is required').trim().isLength({ min: 1 }).escape(),
+	(req, res, next) => {
+		// check for and extract errors
+		const errors = validationResult(req);
+		console.log(errors);
+		// create genre eith escaped and trimmed data
+		const genre = new Genre({
+			name: req.body.name,
+		});
+		if (!errors.isEmpty()) {
+			// there are errors, render the form again with sanitized values and error message
+			res.render('genre_form', {
+				title: 'Create Genre',
+				genre: genre,
+				errors: errors.array(),
+			});
+			return;
+		} else {
+			// check if genre of the same name exists
+			Genre.findOne({ name: req.body.name }).exec(function (err, found_genre) {
+				if (err) {
+					return next(err);
+				}
+				if (found_genre) {
+					// genre already exists, let me show you
+					res.redirect(found_genre.url);
+				} else {
+					genre.save(function (err) {
+						if (err) {
+							return next(err);
+						}
+						res.redirect(genre.url);
+					});
+				}
+			});
+		}
+	},
+];
 
 // Display Genre delete form on GET.
-exports.genre_delete_get = function (req, res) {
+exports.genre_delete_get = function (req, res, next) {
 	res.send('NOT IMPLEMENTED: Genre delete GET');
 };
 
 // Handle Genre delete on POST.
-exports.genre_delete_post = function (req, res) {
+exports.genre_delete_post = function (req, res, next) {
 	res.send('NOT IMPLEMENTED: Genre delete POST');
 };
 
 // Display Genre update form on GET.
-exports.genre_update_get = function (req, res) {
+exports.genre_update_get = function (req, res, next) {
 	res.send('NOT IMPLEMENTED: Genre update GET');
 };
 
 // Handle Genre update on POST.
-exports.genre_update_post = function (req, res) {
+exports.genre_update_post = function (req, res, next) {
 	res.send('NOT IMPLEMENTED: Genre update POST');
 };
