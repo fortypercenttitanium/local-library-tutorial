@@ -1,0 +1,21 @@
+<h1>{{title}}</h1>
+<p>{{author.lifespan}}</p>
+{{#get_length author_books}}
+<p><strong>Delete the following books before attempting to delete this author:</strong></p>
+<div style="margin-left:20px;margin-top:20px">
+<h4>Books</h4>
+<dl>
+  {{#each author_books}}
+  <dt><a href={{this.url}}>{{this.title}}</a></dt>
+  <dd>{{this.summary}}</dd>
+  {{/each}}
+</dl>
+</div>
+{{/get_length}}
+<p>Do you really want to delete this author?</p>
+<form action="" method="POST">
+  <div class="form-group">
+    <input type="hidden" id="authorid" class="form-control" name="authorid" required value={{author._id}}>
+  </div>
+  <button class="btn btn-primary" type="submit">Delete</button>
+</form>

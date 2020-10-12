@@ -1,4 +1,4 @@
-<h1>ID: {{bookinstance._id}}</h1>
+<h1>ID: {{bookInstance._id}}</h1>
 
 <p><strong>Title:</strong>
   <a href={{bookInstance.book.url}}>{{bookInstance.book.title}}</a>
@@ -18,3 +18,7 @@
 {{#if_not_eq bookInstance.status 'Available'}}
 <p><strong>Due back: </strong>{{bookInstance.formatted_due_date}}</p>
 {{/if_not_eq}}
+
+<p>
+  <a href={{delete_page bookInstance._id}}>Delete copy</a>
+</p>
