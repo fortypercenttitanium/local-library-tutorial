@@ -159,10 +159,43 @@ exports.genre_delete_post = function (req, res, next) {
 
 // Display Genre update form on GET.
 exports.genre_update_get = function (req, res, next) {
-	res.send('NOT IMPLEMENTED: Genre update GET');
+	// Get genre
+	Genre.findById(req.params.id, (err, genre) => {
+		if (err) {
+			return next(err);
+		}
+		if (genre == null) {
+			const err = new Error('Genre not found');
+			err.status = 404;
+			return next(err);
+		}
+		res.render('genre_form', { title: 'Update Genre', genre });
+	});
 };
 
 // Handle Genre update on POST.
-exports.genre_update_post = function (req, res, next) {
-	res.send('NOT IMPLEMENTED: Genre update POST');
-};
+exports.genre_update_post = [
+	body('name', 'Genre name required').trim().isLength({ min: 1 }).escape(),
+	(req, res, next) => {
+		const errors = validationResult(req);
+		const genre = new Genre({
+			name: req.body.name,
+			_id: req.params.id,
+		});
+		if (!errors.isEmpty()) {
+			res.render('genre_form', {
+				title: 'Update Genre',
+				genre,
+				errors: errors.array(),
+			});
+			return;
+		} else {
+			Genre.findByIdAndUpdate(req.params.id, genre, {}, function (err, gen) {
+				if (err) {
+					return next(err);
+				}
+				res.redirect(gen.url);
+			});
+		}
+	},
+];

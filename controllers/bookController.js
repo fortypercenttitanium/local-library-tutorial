@@ -359,7 +359,7 @@ exports.book_update_post = [
 						title: 'Update Book',
 						authors: results.authors,
 						genres: results.genres,
-						book: book,
+						book,
 						errors: errors.array(),
 					});
 				}

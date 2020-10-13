@@ -10,7 +10,7 @@
 			placeholder="Name of book"
       name="title"
 			required="true"
-			value={{book_exists book}}>
+			value="{{book_exists book}}">
 	</div>
 	<div class="form-group">
 		<label for="author">Author:</label>
@@ -21,16 +21,16 @@
 			name="author"
 			required="true"
 		>
-    <option disabled selected hidden>Please select author:</option>
+    <option disabled hidden>Please select author:</option>
 			{{#each authors}}
-			{{#if book}}
+			{{#if ../book}}
 			<option
-				value={{ this._id }}
-				selected={{check_book_author book this}}
-				id={{ this.name }}
+				value="{{ this._id }}"
+				{{check_book_author ../book this}}
+				id="{{ this.name }}"
 			>{{this.name}}</option>
 			{{else}}
-			<option value={{ this._id }} id={{ this.name }}>{{this.name}}</option>
+			<option value="{{ this._id }}" id="{{ this.name }}">{{this.name}}</option>
 			{{/if}}
 			{{/each}}
 		</select>
@@ -46,8 +46,7 @@
 			class="form-control"
 			required="true"
 			placeholder="Summary"
-			value={{book_exists_summary book}}
-		></textarea>
+			>{{book_exists_summary book}}</textarea>
 	</div>
 	<div class="form-group">
 		<label for="isbn">ISBN:</label>
@@ -70,7 +69,7 @@
 				name="genre"
 				id={{ this._id }}
 				value={{ this._id }}
-				check={{ this.checked }}
+				{{check_genre_checked this}}
 			/>
 			<label for={{ this._id }} id={{ this.name }}>{{this.name}}</label>
 		</div>

@@ -1,3 +1,5 @@
+const Handlebars = require('handlebars');
+
 module.exports = {
 	if_eq: function (a, b, options) {
 		return a === b ? options.fn(this) : options.inverse(this);
@@ -32,10 +34,10 @@ module.exports = {
 		});
 	},
 	check_book_author: function (book, author) {
-		return author._id.toString() === book.author._id ||
+		return author._id.toString() === book.author._id.toString() ||
 			author._id.toString() == book.author
 			? 'selected'
-			: false;
+			: '';
 	},
 	book_exists_summary: function (book) {
 		return book ? book.summary : '';
@@ -62,5 +64,8 @@ module.exports = {
 	},
 	get_length: function (item, options) {
 		return item.length > 0 ? options.fn(this) : options.inverse(this);
+	},
+	check_genre_checked: function (genre) {
+		return genre.checked ? 'checked' : '';
 	},
 };
