@@ -1,4 +1,5 @@
 const Handlebars = require('handlebars');
+const { format } = require('date-fns');
 
 module.exports = {
 	if_eq: function (a, b, options) {
@@ -20,10 +21,10 @@ module.exports = {
 		return author ? author.family_name : '';
 	},
 	author_date_of_birth_exists: function (author) {
-		return author ? author.date_of_birth : '';
+		return author ? format(author.date_of_birth, 'yyyy-MM-dd') : '';
 	},
 	author_date_of_death_exists: function (author) {
-		return author ? author.date_of_death : '';
+		return author ? format(author.date_of_death, 'yyyy-MM-dd') : '';
 	},
 	book_exists: function (book) {
 		return book ? book.title : '';
@@ -46,15 +47,18 @@ module.exports = {
 		return book ? book.isbn : '';
 	},
 	check_book_instance: function (bookInstance, book) {
-		return bookInstance.book.toString() === book._id.toString()
-			? 'true'
-			: 'false';
+		return bookInstance.book._id.toString() === book._id.toString()
+			? 'selected'
+			: '';
 	},
 	check_bookInstance_imprint: function (bookInstance) {
 		return bookInstance ? bookInstance.imprint : '';
 	},
 	check_bookInstance_due_back: function (bookInstance) {
-		return bookInstance ? bookInstance.due_back : '';
+		return bookInstance ? format(bookInstance.due_back, 'yyyy-MM-dd') : '';
+	},
+	check_bookInstance_status: function (bookInstance, status) {
+		return bookInstance.status === status ? 'selected' : '';
 	},
 	delete_page: function (url) {
 		return `${url}/delete`;

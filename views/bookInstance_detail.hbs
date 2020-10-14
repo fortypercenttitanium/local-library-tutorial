@@ -18,7 +18,10 @@
 {{#if_not_eq bookInstance.status 'Available'}}
 <p><strong>Due back: </strong>{{bookInstance.formatted_due_date}}</p>
 {{/if_not_eq}}
-
+<hr>
 <p>
   <a href={{delete_page bookInstance._id}}>Delete copy</a>
+</p>
+<p>
+  <a href={{update_page bookInstance._id}}>Update copy</a>
 </p>
