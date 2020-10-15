@@ -58,7 +58,11 @@ module.exports = {
 		return bookInstance ? format(bookInstance.due_back, 'yyyy-MM-dd') : '';
 	},
 	check_bookInstance_status: function (bookInstance, status) {
-		return bookInstance.status === status ? 'selected' : '';
+		if (bookInstance) {
+			return bookInstance.status === status ? 'selected' : '';
+		} else {
+			return '';
+		}
 	},
 	delete_page: function (url) {
 		return `${url}/delete`;
