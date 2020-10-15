@@ -6,9 +6,13 @@
 		"start": "node ./bin/www",
 		"devstart": "SET DEBUG=express-locallibrary-tutorial:* & nodemon ./bin/www"
 	},
+	"engines": {
+		"node": "12.18.3"
+	},
 	"dependencies": {
 		"@handlebars/allow-prototype-access": "^1.0.3",
 		"async": "^3.2.0",
+		"compression": "^1.7.4",
 		"cookie-parser": "~1.4.4",
 		"date-fns": "^2.16.1",
 		"debug": "~2.6.9",
@@ -19,6 +23,7 @@
 		"handlebars": "^4.7.6",
 		"handlebars-layout": "^0.1.4",
 		"hbs": "^4.1.1",
+		"helmet": "^4.1.1",
 		"http-errors": "~1.6.3",
 		"mongodb": "^3.6.2",
 		"mongoose": "^5.10.7",

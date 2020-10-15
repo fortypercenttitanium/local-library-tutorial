@@ -7,7 +7,9 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const helmet = require('helmet');
 const catalogRouter = require('./routes/catalog');
+const compression = require('compression');
 const helpers = require('./views/helpers/helpers');
 const { MongoClient } = require('mongodb');
 const _handlebars = require('handlebars');
@@ -42,13 +44,13 @@ const hbs = exphbs.create({
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
-
+app.use(helmet());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(compression());
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/catalog', catalogRouter);
