@@ -18,7 +18,7 @@ const {
 	allowInsecurePrototypeAccess,
 } = require('@handlebars/allow-prototype-access');
 
-const mongoDB = `mongodb+srv://ayounger:${process.env.PASSWORD}@locallibrary.rco6r.mongodb.net/local_library?retryWrites=true&w=majority`;
+const mongoDB = process.env.MONGODB_URI;
 
 mongoose.connect(mongoDB, {
 	useUnifiedTopology: true,
